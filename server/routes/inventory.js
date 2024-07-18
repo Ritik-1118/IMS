@@ -6,7 +6,8 @@ import {
     getAllRowMaterialItems,
     getAllWorkInProgressItems,
     getAllFinishedItems,
-    getCurrentInventoryLevel
+    getCurrentInventoryLevel,
+    getAllMaterials
 } from '../controllers/inventoryController.js';
 import {
     getAllItems,
@@ -21,6 +22,7 @@ import {
 const router = express.Router();
 
 // Inventory Routes
+router.route('/').get(getAllMaterials);
 router.route( '/rowMaterials' ).get( getAllRowMaterials );
 router.route( '/workInProgress' ).get( getAllWorkInProgress );
 router.route( '/finished' ).get( getAllFinished );

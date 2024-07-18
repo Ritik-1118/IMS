@@ -6,7 +6,7 @@ const itemSchema = new mongoose.Schema( {
     quantity:{type:Number},
     price: { type: Number, required: true },
     category:{type: String, required: true},
-    itemLevel: { type: String, default: "Available"},
+    itemLevel: { type: Number, default: 1},
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
 }, { timestamps: true } );
 

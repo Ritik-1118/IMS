@@ -1,6 +1,17 @@
 import Inventory from '../models/Inventory.js';
 import ItemModel from '../models/Item.js';
 
+export const getAllMaterials = async (req, res) => {
+    try {
+        const rowMaterials = await Inventory.findOne().select( 'rowMaterials' );
+        const workInProgress = await Inventory.findOne().select( 'workInProgress' );
+        const Finished = await Inventory.findOne().select( 'Finished' );
+        res.status( 200 ).json({ rowMaterials, workInProgress, Finished });
+    } catch ( error ) {
+        res.status( 500 ).json( { message: error.message } );
+    }
+}
+
 // Get all rowMaterials IDs
 export const getAllRowMaterials = async ( req, res ) => {
     try {

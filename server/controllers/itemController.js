@@ -65,9 +65,9 @@ export const getItemsByItemLevel = async ( req, res ) => {
 export const createItem = async ( req, res ) => {
     // console.log(req.body)
     try {
-        const { itemName, description, price, category, itemLevel, inventoryType } = req.body;
+        const { itemName, description, quantity, price, category, itemLevel, inventoryType } = req.body;
         const userId = req.user._id;
-        const newItem = new ItemModel( { itemName, description, price, category, itemLevel, userId } );
+        const newItem = new ItemModel( { itemName, description, quantity, price, category, itemLevel, userId } );
         const savedItem = await newItem.save();
 
         let inventoryField;
