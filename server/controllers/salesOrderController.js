@@ -1,5 +1,6 @@
 import SalesOrder from '../models/SalesOrder.js';
 import ItemModel from '../models/Item.js';
+import PurchaseOrder from '../models/PurchaseOrders.js';
 
 // Create a new sales order
 export const createSalesOrder = async ( req, res ) => {
@@ -27,7 +28,25 @@ export const createSalesOrder = async ( req, res ) => {
 export const getAllSalesOrders = async ( req, res ) => {
     try {
         const salesOrders = await SalesOrder.find().populate( 'customerId' ).populate( 'items.itemId' );
-        res.status( 200 ).json( salesOrders );
+        // get total Price
+        let totalSalesPrice = 0;
+        for (const order of salesOrders) {
+            for (const item of order.items) {
+                const itemPrice = item.itemId.price;
+                const itemQuantity = item.quantity;
+                totalSalesPrice += itemPrice * itemQuantity;
+            }
+        }
+        const purchaseOrders = await PurchaseOrder.find().populate( 'supplierId' ).populate( 'items.itemId' );
+        let totalPurchasePrice = 0;
+        for (const order of purchaseOrders) {
+            for (const item of order.items) {
+                const itemPrice = item.itemId.price;
+                const itemQuantity = item.quantity;
+                totalPurchasePrice += itemPrice * itemQuantity;
+            }
+        }
+        res.status( 200 ).json({ "sales":salesOrders, "purchase":purchaseOrders, "totalSalesPrice": totalSalesPrice, "totalPurchasePrice": totalPurchasePrice} );
     } catch ( error ) {
         res.status( 500 ).json( { message: error.message } );
     }

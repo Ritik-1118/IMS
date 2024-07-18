@@ -6,7 +6,7 @@ import Supplier from '../models/Supplier.js';
 export const createPurchaseOrder = async ( req, res ) => {
     try {
         const { supplierId, items, totalAmount } = req.body;
-        const userId = req.user._id;  // Assuming req.user is set by authentication middleware
+        const userId = req.cookies.user._id;
 
         const supplier = await Supplier.findById( supplierId );
         if ( !supplier ) {

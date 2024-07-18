@@ -62,8 +62,10 @@ export const data = (items)=> {
 };
 
 function Dashboard () {
-    const [ saleAmount, setSaleAmount ] = useState( "" );
-    const [ purchaseAmount, setPurchaseAmount ] = useState( "" );
+    const [ saleCount, setSaleCount ] = useState( "" );
+    const [ saleAmounts, setSaleAmounts ] = useState( "" );
+    const [ purchaseCount, setPurchaseCount ] = useState( "" );
+    const [ purchaseAmounts, setPurchaseAmounts ] = useState( "" );
     const [ totalRowMaterials, setTotalRowMaterials ] = useState( [] );
     const [ totalWorkInProgress, setTotalWorkInProgress] = useState([]);
     const [totalFinished, setTotalFinished] = useState([]);
@@ -120,6 +122,7 @@ function Dashboard () {
         fetchTotalFinished();
         fetchAllItems();
         fetchMonthlySalesData();
+        fetchAllSales();
     }, [] );
 
     const fetchTotalRowMaterials = async () => {
@@ -198,72 +201,119 @@ function Dashboard () {
             console.error("Error Fatching Monthly Sales Data in:", err);
         }
     }
+    const fetchAllSales = async () => {
+        try {
+            const response = await fetch(`http://localhost:8000/api/orders/sales/`, {
+                method: "GET",
+                credentials: "include",
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                setSaleCount( data.sales.length )
+                setSaleAmounts(data.totalSalesPrice)
+                setPurchaseCount(data.purchase.length)
+                setPurchaseAmounts(data.totalPurchasePrice);
+                console.log(data)
+            } 
+        } catch (err) {
+            console.error("Error Fatching Monthly Sales Data in:", err);
+        }
+    }
 
     return (
         <>
             <div className="grid grid-cols-1 col-span-12 lg:col-span-10 gap-6 md:grid-cols-3 lg:grid-cols-4  p-4 ">
                 <article className="flex flex-col gap-4 rounded-lg border  border-gray-100 bg-white p-6  ">
-                    <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-4 w-4"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-                            />
-                        </svg>
-                        <span className="text-xs font-medium"> 67.81% </span>
+                    <div className="flex justify-between">
+                        <div className="font-bold">Sales</div>
+                        <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="h-4 w-4"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+                                />
+                            </svg>
+                            <span className="text-xs font-medium"> 67.81% </span>
+                        </div>
                     </div>
 
-                    <div>
-                        <strong className="block text-sm font-medium text-gray-500">
-                            Sales
-                        </strong>
-                        <p>
-                            <span className="text-2xl font-medium text-gray-900">
-                                ${ saleAmount }
-                            </span>
-                            <span className="text-xs text-gray-500"> from $240.94 </span>
-                        </p>
+                    <div className="flex">
+                        <div className="w-full">
+                            <strong className="block text-sm font-medium text-gray-500">
+                                Total count
+                            </strong>
+                            <p>
+                                <span className="text-2xl font-medium text-gray-900">
+                                    #{ saleCount }
+                                </span>
+                                {/* <span className="text-xs text-gray-500"> from $240.94 </span> */}
+                            </p>
+                        </div>
+                        <div className="w-full">
+                            <strong className="block text-sm font-medium text-gray-500">
+                                Total Amounts
+                            </strong>
+                            <p>
+                                <span className="text-2xl font-medium text-gray-900">
+                                    ${ saleAmounts }
+                                </span>
+                            </p>
+                        </div>
                     </div>
                 </article>
-                <article className="flex flex-col  gap-4 rounded-lg border border-gray-100 bg-white p-6 ">
-                    <div className="inline-flex gap-2 self-end rounded bg-red-100 p-1 text-red-600">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-4 w-4"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"
-                            />
-                        </svg>
-
-                        <span className="text-xs font-medium"> 67.81% </span>
+                <article className="flex flex-col gap-4 rounded-lg border  border-gray-100 bg-white p-6  ">
+                    <div className="flex justify-between">
+                        <div className="font-bold">Purchase</div>
+                        <div className="inline-flex gap-2 self-end rounded bg-green-100 p-1 text-green-600">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="h-4 w-4"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+                                />
+                            </svg>
+                            <span className="text-xs font-medium"> 67.81% </span>
+                        </div>
                     </div>
 
-                    <div>
-                        <strong className="block text-sm font-medium text-gray-500">
-                            Purchase
-                        </strong>
-                        <p>
-                            <span className="text-2xl font-medium text-gray-900">
-                                { " " }
-                                ${ purchaseAmount }{ " " }
-                            </span>
-                            <span className="text-xs text-gray-500"> from $404.32 </span>
-                        </p>
+                    <div className="flex">
+                        <div className="w-full">
+                            <strong className="block text-sm font-medium text-gray-500">
+                                Total count
+                            </strong>
+                            <p>
+                                <span className="text-2xl font-medium text-gray-900">
+                                    #{ purchaseCount }
+                                </span>
+                                {/* <span className="text-xs text-gray-500"> from $240.94 </span> */}
+                            </p>
+                        </div>
+                        <div className="w-full">
+                            <strong className="block text-sm font-medium text-gray-500">
+                                Total Amounts
+                            </strong>
+                            <p>
+                                <span className="text-2xl font-medium text-gray-900">
+                                    ${ purchaseAmounts }
+                                </span>
+                            </p>
+                        </div>
                     </div>
                 </article>
                 <article className="flex flex-col   gap-4 rounded-lg border border-gray-100 bg-white p-6 ">
