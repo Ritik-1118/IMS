@@ -122,7 +122,7 @@ function Dashboard () {
         fetchTotalFinished();
         fetchAllItems();
         fetchMonthlySalesData();
-        fetchAllSales();
+        fetchAllSalesAndPurchase();
     }, [] );
 
     const fetchTotalRowMaterials = async () => {
@@ -201,9 +201,9 @@ function Dashboard () {
             console.error("Error Fatching Monthly Sales Data in:", err);
         }
     }
-    const fetchAllSales = async () => {
+    const fetchAllSalesAndPurchase = async () => {
         try {
-            const response = await fetch(`http://localhost:8000/api/orders/sales/`, {
+            const response = await fetch(`http://localhost:8000/api/orders/`, {
                 method: "GET",
                 credentials: "include",
             });

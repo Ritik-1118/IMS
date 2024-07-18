@@ -28,6 +28,16 @@ export const createSalesOrder = async ( req, res ) => {
 export const getAllSalesOrders = async ( req, res ) => {
     try {
         const salesOrders = await SalesOrder.find().populate( 'customerId' ).populate( 'items.itemId' );
+        res.status( 200 ).json(salesOrders );
+    } catch ( error ) {
+        res.status( 500 ).json( { message: error.message } );
+    }
+};
+
+//  get both sales and purchase orders
+export const getAllOrders = async ( req, res ) => {
+    try {
+        const salesOrders = await SalesOrder.find().populate( 'customerId' ).populate( 'items.itemId' );
         // get total Price
         let totalSalesPrice = 0;
         for (const order of salesOrders) {

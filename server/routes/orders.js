@@ -6,6 +6,7 @@ import {
     updateSalesOrder,
     deleteSalesOrder,
     getMonthlySalesData,
+    getAllOrders
 } from '../controllers/salesOrderController.js';
 import {
     createPurchaseOrder,
@@ -28,6 +29,7 @@ router.route( '/sales/:id' )
     .put( updateSalesOrder )
     .delete( deleteSalesOrder );
 
+router.route("/").get(adminMiddleware, getAllOrders)
 
 // Purchase order Router
 router.route( '/purchase/' )
