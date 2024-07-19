@@ -30,7 +30,7 @@ export const data = (items)=> {
             }
         })
     }
-    console.log("items:------",items);
+    // console.log("items:------",items);
     if(items.length >= 0){
         countitems();
     }
@@ -214,7 +214,7 @@ function Dashboard () {
                 setSaleAmounts(data.totalSalesPrice)
                 setPurchaseCount(data.purchase.length)
                 setPurchaseAmounts(data.totalPurchasePrice);
-                console.log(data)
+                // console.log(data)
             } 
         } catch (err) {
             console.error("Error Fatching Monthly Sales Data in:", err);

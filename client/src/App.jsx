@@ -17,7 +17,7 @@ const App = () => {
     const [ user, setUser ] = useState( "" );
     const [ loader, setLoader ] = useState( true );
     let myLoginUser = JSON.parse( localStorage.getItem( "user" ) );
-    console.log("USER: ",user)
+    // console.log("USER: ",user)
 
     useEffect( () => {
         if ( myLoginUser ) {

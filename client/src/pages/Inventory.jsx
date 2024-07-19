@@ -1,6 +1,7 @@
-import { useState, useEffect, useContext } from "react";
-import AuthContext from "../AuthContext";
+import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
+import AddProduct from "../components/AddProduct";
+import UpdateProduct from "../components/UpdateProduct";
 
 function Inventory () {
     const [products, setAllProducts] = useState([]);
@@ -11,12 +12,10 @@ function Inventory () {
     const [ showProductModal, setShowProductModal ] = useState( false );
     const [ showUpdateModal, setShowUpdateModal ] = useState( false );
     const [ updatePage, setUpdatePage ] = useState( true );
+    const [ updateProductData, setUpdateProductData ] = useState();
 
-    const authContext = useContext( AuthContext );
-    console.log( authContext );
 
     useEffect( () => {
-
         fetchInventory();
         fetchAllProducts();
     }, [ updatePage ] );
@@ -31,13 +30,12 @@ function Inventory () {
             if (response.ok) {
                 const data = await response.json();
                 setAllProducts(data);
-                console.log("fetchAllProducts:-- ",data)
+                // console.log("fetchAllProducts:-- ",data)
             } 
         } catch (err) {
             console.error("Error Fatching Row Materials in:", err);
         }
     }
-
     const fetchInventory = async () => {
         try {
             const response = await fetch(`http://localhost:8000/api/inventory/`, {
@@ -58,7 +56,6 @@ function Inventory () {
             console.error("Error Fatching Row Materials in:", err);
         }
     }
-    // Delete item
     const deleteItem = async( id ) => {
         try {
             const response = await fetch(`http://localhost:8000/api/inventory/item/${id}`, {
@@ -73,21 +70,21 @@ function Inventory () {
             console.error("Error deleting product in:", err);
         }
     };
+
     // for Product UPDATE
-    const updateProductModalSetting = (  ) => {
-        console.log( "Clicked: edit" );
+    const updateProductModal = ( data ) => {
+        setUpdateProductData(data);
         setShowUpdateModal( !showUpdateModal );
     };
-
-    // Modal for Product ADD
-    const addProductModalSetting = () => {
-        setShowProductModal( !showProductModal );
-    };
-
     // Handle Page Update
     const handlePageUpdate = () => {
         setUpdatePage( !updatePage );
     };
+    // Modal for Product ADD
+    const addProductModal = () => {
+        setShowProductModal( !showProductModal );
+    };
+
 
 
     return (
@@ -166,18 +163,19 @@ function Inventory () {
                     </div>
                 </div>
 
-                {/* { showProductModal && (
+                { showProductModal && (
                     <AddProduct
-                        addProductModalSetting={ addProductModalSetting }
+                        addProductModal={ addProductModal }
                         handlePageUpdate={ handlePageUpdate }
                     />
                 ) }
                 { showUpdateModal && (
                     <UpdateProduct
-                        updateProductData={ updateProduct }
-                        updateModalSetting={ updateProductModalSetting }
+                        updateProductData={ updateProductData }
+                        updateModal={ updateProductModal }
+                        updatePage = {handlePageUpdate}
                     />
-                ) } */}
+                ) }
 
                 {/* Table  */ }
                 <div className="overflow-x-auto rounded-lg border bg-white border-gray-200 ">
@@ -200,7 +198,7 @@ function Inventory () {
                         <div className="flex gap-4">
                             <button
                                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-2 text-xs  rounded"
-                                onClick={ addProductModalSetting }
+                                onClick={ ()=> addProductModal()}
                             >
                                 Add Product
                             </button>
@@ -255,7 +253,7 @@ function Inventory () {
                                         <td className="whitespace-nowrap px-4 py-2 text-gray-700">
                                             <span
                                                 className="text-green-700 cursor-pointer"
-                                                onClick={ () => updateProductModalSetting( element ) }
+                                                onClick={ () => updateProductModal( element ) }
                                             >
                                                 Edit{ " " }
                                             </span>

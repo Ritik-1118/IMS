@@ -70,20 +70,21 @@ export const createItem = async ( req, res ) => {
         const newItem = new ItemModel( { itemName, description, quantity, price, category, itemLevel, userId } );
         const savedItem = await newItem.save();
 
-        let inventoryField;
-
-        switch ( inventoryType ) {
-            case 'rowMaterials':
-                inventoryField = 'rowMaterials';
-                break;
-            case 'workInProgress':
-                inventoryField = 'workInProgress';
-                break;
-            case 'Finished':
-                inventoryField = 'Finished';
-                break;
-            default:
-                return res.status( 400 ).json( { message: 'Invalid inventory type' } );
+        let inventoryField = "rowMaterials"; // initial type: rowMaterials
+        if(inventoryType){
+            switch ( inventoryType ) {
+                case 'rowMaterials':
+                    inventoryField = 'rowMaterials';
+                    break;
+                case 'workInProgress':
+                    inventoryField = 'workInProgress';
+                    break;
+                case 'Finished':
+                    inventoryField = 'Finished';
+                    break;
+                default:
+                    return res.status( 400 ).json( { message: 'Invalid inventory type' } );
+            }
         }
 
         const inventory = await Inventory.findOne();

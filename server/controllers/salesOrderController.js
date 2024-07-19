@@ -39,6 +39,7 @@ export const getAllOrders = async ( req, res ) => {
     try {
         const salesOrders = await SalesOrder.find().populate( 'customerId' ).populate( 'items.itemId' );
         // get total Price
+        // console.log(salesOrders)
         let totalSalesPrice = 0;
         for (const order of salesOrders) {
             for (const item of order.items) {
