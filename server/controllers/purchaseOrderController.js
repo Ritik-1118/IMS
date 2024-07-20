@@ -32,6 +32,7 @@ export const createPurchaseOrder = async ( req, res ) => {
 export const getAllPurchaseOrders = async ( req, res ) => {
     try {
         const purchaseOrders = await PurchaseOrder.find().populate( 'supplierId' ).populate( 'items.itemId' );
+        // console.log(purchaseOrders)
         res.status( 200 ).json( purchaseOrders );
     } catch ( error ) {
         res.status( 500 ).json( { message: error.message } );

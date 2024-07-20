@@ -1,18 +1,17 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import AddPurchaseDetails from "../components/AddPurchaseDetails";
-import AuthContext from "../AuthContext";
 
 function PurchaseDetails () {
     const [ showPurchaseModal, setPurchaseModal ] = useState( false );
     const [ purchase, setAllPurchaseData ] = useState( [] );
     const [ products, setAllProducts ] = useState( [] );
+    const [suppliers, setSuppliers] = useState([]);
     const [ updatePage, setUpdatePage ] = useState( true );
-
-    const authContext = useContext( AuthContext );
 
     useEffect( () => {
         fetchPurchaseData();
         fetchProductsData();
+        fetchSuppliers();
     }, [ updatePage ] );
 
     // Fetching Data of All Purchase items
@@ -32,23 +31,41 @@ function PurchaseDetails () {
             console.error( "Error Fatching purchase data in:", err );
         }
     };
+    const fetchProductsData = async () => {
+        try {
+            const response = await fetch(`http://localhost:8000/api/inventory/items`, {
+                method: "GET",
+                credentials: "include",
+            });
 
-    // Fetching Data of All Products
-    const fetchProductsData = () => {
-        fetch( `http://localhost:4000/api/product/get/${authContext.user}` )
-            .then( ( response ) => response.json() )
-            .then( ( data ) => {
-                setAllProducts( data );
-            } )
-            .catch( ( err ) => console.log( err ) );
-    };
+            if (response.ok) {
+                const data = await response.json();
+                setAllProducts(data);
+                // console.log("fetchAllProducts:-- ",data)
+            } 
+        } catch (err) {
+            console.error("Error Fatching Row Materials in:", err);
+        }
+    }
+    const fetchSuppliers = async () => {
+        try {
+            const response = await fetch(`http://localhost:8000/api/supplier`, {
+                method: "GET",
+                credentials: "include",
+            });
 
+            if (response.ok) {
+                const data = await response.json();
+                setSuppliers(data);
+            } 
+        } catch (err) {
+            console.error("Error Fatching Row Materials in:", err);
+        }
+    }
     // Modal for Sale Add
-    const addSaleModalSetting = () => {
+    const addPurchase = () => {
         setPurchaseModal( !showPurchaseModal );
     };
-
-
     // Handle Page Update
     const handlePageUpdate = () => {
         setUpdatePage( !updatePage );
@@ -59,10 +76,10 @@ function PurchaseDetails () {
             <div className=" flex flex-col gap-5 w-11/12">
                 { showPurchaseModal && (
                     <AddPurchaseDetails
-                        addSaleModalSetting={ addSaleModalSetting }
+                        addPurchase={ addPurchase }
                         products={ products }
+                        suppliers={suppliers}
                         handlePageUpdate={ handlePageUpdate }
-                        authContext={ authContext }
                     />
                 ) }
                 {/* Table  */ }
@@ -74,9 +91,8 @@ function PurchaseDetails () {
                         <div className="flex gap-4">
                             <button
                                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-2 text-xs  rounded"
-                                onClick={ addSaleModalSetting }
+                                onClick={ addPurchase }
                             >
-                                {/* <Link to="/inventory/add-product">Add Product</Link> */ }
                                 Add Purchase
                             </button>
                         </div>
@@ -85,7 +101,7 @@ function PurchaseDetails () {
                         <thead>
                             <tr>
                                 <th className="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900">
-                                    Product Name
+                                    Products
                                 </th>
                                 <th className="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900">
                                     Quantity Purchased
@@ -94,29 +110,46 @@ function PurchaseDetails () {
                                     Purchase Date
                                 </th>
                                 <th className="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900">
+                                    Supplier Name
+                                </th>
+                                <th className="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900">
+                                    Status
+                                </th>
+                                <th className="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900">
                                     Total Purchase Amount
                                 </th>
                             </tr>
                         </thead>
 
                         <tbody className="divide-y divide-gray-200">
-                            { purchase.map( ( element ) => {
+                            { purchase.map( ( element1 ) => {
                                 return (
-                                    <tr key={ element._id }>
-                                        <td className="whitespace-nowrap px-4 py-2  text-gray-900">
-                                            { element.ProductID?.name }
+                                    <tr key={ element1._id }>
+                                        {/* {console.log("purchase map 1",element1)} */}
+                                        <td className="whitespace-nowrap px-4 py-2  text-gray-900 flex">
+                                            { element1.items.map((element2, i)=>(
+                                                <div key={i}>{element2.itemId.itemName},</div>
+                                            ))}
                                         </td>
                                         <td className="whitespace-nowrap px-4 py-2 text-gray-700">
-                                            { element.QuantityPurchased }
+                                            { element1.items.map((element2, i)=>(
+                                                <td key={i} className=" border-2 px-1">{`${element2.quantity}`}</td>
+                                            ))}
                                         </td>
                                         <td className="whitespace-nowrap px-4 py-2 text-gray-700">
-                                            { new Date( element.PurchaseDate ).toLocaleDateString() ==
+                                            { new Date( element1.orderDate ).toLocaleDateString() ==
                                                 new Date().toLocaleDateString()
                                                 ? "Today"
-                                                : element.PurchaseDate }
+                                                : new Date( element1.orderDate ).toLocaleDateString('en-GB', { year: 'numeric', month: '2-digit', day: '2-digit' })}
                                         </td>
                                         <td className="whitespace-nowrap px-4 py-2 text-gray-700">
-                                            ${ element.TotalPurchaseAmount }
+                                            ${ element1.supplierId.name }
+                                        </td>
+                                        <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                                            ${ element1.status }
+                                        </td>
+                                        <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                                            ${ element1.totalAmount }
                                         </td>
                                     </tr>
                                 );
