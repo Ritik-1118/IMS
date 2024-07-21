@@ -13,16 +13,16 @@ export const data = (items)=> {
     const countitems = () => {
         items.forEach((item) => {
             switch (item.category) {
-                case "Round Bar":
+                case "round bars":
                     roundBars++;
                     break;
-                case "Angle":
+                case "angles":
                     angles++;
                     break;
-                case "Channel":
+                case "channels":
                     channels++;
                     break;
-                case "Pipe":
+                case "pipes":
                     pipes++;
                     break;
                 default:
@@ -31,7 +31,7 @@ export const data = (items)=> {
         })
     }
     // console.log("items:------",items);
-    if(items.length >= 0){
+    if(items.length >= 1){
         countitems();
     }
     return({

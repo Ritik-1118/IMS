@@ -131,9 +131,9 @@ function PurchaseDetails () {
                                                 <div key={i}>{element2.itemId?.itemName},</div>
                                             ))}
                                         </td>
-                                        <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                                        <td className="whitespace-nowrap px-4 py-2 text-gray-700 ">
                                             { element1.items.map((element2, i)=>(
-                                                <td key={i} className=" border-2 px-1">{`${element2?.quantity}`}</td>
+                                                <td key={i} className=" px-1">{`${element2?.quantity}`}</td>
                                             ))}
                                         </td>
                                         <td className="whitespace-nowrap px-4 py-2 text-gray-700">
