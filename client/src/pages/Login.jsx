@@ -55,7 +55,7 @@ function Login() {
                 dispatch( login( { user: userData, token: userData.token } ) );
                 toast.success("Login Successfully!");
                 navigate('/');
-                window.location.reload();
+                // window.location.reload();
             } else {
                 setError({ ...error, password: "Invalid username or password" });
             }
