@@ -63,7 +63,7 @@ export default function AddPurchaseDetails ( { addPurchase, products, suppliers,
 
     const handleAddPurchase = async() => {
         try {
-            const response = await fetch(`http://localhost:8000/api/orders/purchase/`, {
+            const response = await fetch(`https://ims-ameg.onrender.com/api/orders/purchase/`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

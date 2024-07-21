@@ -127,7 +127,7 @@ function Dashboard () {
 
     const fetchTotalRowMaterials = async () => {
         try {
-            const response = await fetch(`http://localhost:8000/api/inventory/rowMaterials`, {
+            const response = await fetch(`https://ims-ameg.onrender.com/api/inventory/rowMaterials`, {
                 method: "GET",
                 credentials: "include",
             });
@@ -142,7 +142,7 @@ function Dashboard () {
     }
     const fetchTotalWorkInProgress = async () => {
         try {
-            const response = await fetch(`http://localhost:8000/api/inventory/workInProgress`, {
+            const response = await fetch(`https://ims-ameg.onrender.com/api/inventory/workInProgress`, {
                 method: "GET",
                 credentials: "include",
             });
@@ -157,7 +157,7 @@ function Dashboard () {
     }
     const fetchTotalFinished = async () => {
         try {
-            const response = await fetch(`http://localhost:8000/api/inventory/finished`, {
+            const response = await fetch(`https://ims-ameg.onrender.com/api/inventory/finished`, {
                 method: "GET",
                 credentials: "include",
             });
@@ -172,7 +172,7 @@ function Dashboard () {
     }
     const fetchAllItems = async () => {
         try {
-            const response = await fetch(`http://localhost:8000/api/inventory/items`, {
+            const response = await fetch(`https://ims-ameg.onrender.com/api/inventory/items`, {
                 method: "GET",
                 credentials: "include",
             });
@@ -188,7 +188,7 @@ function Dashboard () {
 
     const fetchMonthlySalesData = async () => {
         try {
-            const response = await fetch(`http://localhost:8000/api/orders/sales/monthlySalesData`, {
+            const response = await fetch(`https://ims-ameg.onrender.com/api/orders/sales/monthlySalesData`, {
                 method: "GET",
                 credentials: "include",
             });
@@ -203,7 +203,7 @@ function Dashboard () {
     }
     const fetchAllSalesAndPurchase = async () => {
         try {
-            const response = await fetch(`http://localhost:8000/api/orders/`, {
+            const response = await fetch(`https://ims-ameg.onrender.com/api/orders/`, {
                 method: "GET",
                 credentials: "include",
             });

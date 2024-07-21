@@ -26,7 +26,7 @@ export default function UpdateProduct ( { updateProductData, updateModal, update
     const updateProduct = async() => {
         // console.log("product",product)
         try {
-            const response = await fetch(`http://localhost:8000/api/inventory/item/${product.productID}`, {
+            const response = await fetch(`https://ims-ameg.onrender.com/api/inventory/item/${product.productID}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",

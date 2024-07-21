@@ -22,7 +22,7 @@ function Inventory () {
 
     const fetchAllProducts = async () => {
         try {
-            const response = await fetch(`http://localhost:8000/api/inventory/items`, {
+            const response = await fetch(`https://ims-ameg.onrender.com/api/inventory/items`, {
                 method: "GET",
                 credentials: "include",
             });
@@ -38,7 +38,7 @@ function Inventory () {
     }
     const fetchInventory = async () => {
         try {
-            const response = await fetch(`http://localhost:8000/api/inventory/`, {
+            const response = await fetch(`https://ims-ameg.onrender.com/api/inventory/`, {
                 method: "GET",
                 credentials: "include",
             });
@@ -58,7 +58,7 @@ function Inventory () {
     }
     const deleteItem = async( id ) => {
         try {
-            const response = await fetch(`http://localhost:8000/api/inventory/item/${id}`, {
+            const response = await fetch(`https://ims-ameg.onrender.com/api/inventory/item/${id}`, {
                 method: "DELETE",
                 credentials: "include",
             });

@@ -17,7 +17,7 @@ export const Suppliers = () => {
     // Fetching Data of All Sales items
     const fetchAllSuppliers = async () => {
         try {
-            const response = await fetch( `http://localhost:8000/api/supplier`, {
+            const response = await fetch( `https://ims-ameg.onrender.com/api/supplier`, {
                 method: "GET",
                 credentials: "include",
             } );
@@ -34,7 +34,7 @@ export const Suppliers = () => {
 
     const handleDeleteSupplier = async ( id ) => {
         try {
-            const response = await fetch( `http://localhost:8000/api/supplier/${id}`, {
+            const response = await fetch( `https://ims-ameg.onrender.com/api/supplier/${id}`, {
                 method: "DELETE",
                 credentials: "include",
             } );

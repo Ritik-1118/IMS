@@ -33,7 +33,7 @@ export default function AddSupplier ({handlePageUpdate, toggleAddSupplier}) {
     const handleAddSupplier = async () => {
         try {
             console.log(supplier)
-            const response = await fetch(`http://localhost:8000/api/supplier/create`, {
+            const response = await fetch(`https://ims-ameg.onrender.com/api/supplier/create`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

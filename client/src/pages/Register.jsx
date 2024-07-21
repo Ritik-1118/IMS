@@ -50,7 +50,7 @@ function Register() {
         }
 
         try {
-            const response = await fetch("http://localhost:8000/api/user/auth/register", {
+            const response = await fetch("https://ims-ameg.onrender.com/api/user/auth/register", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

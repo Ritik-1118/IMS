@@ -18,7 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(
     cors({
-    origin: "http://localhost:5173",
+    origin: "https://ims-beryl.vercel.app/",
     methods:"POST,GET,PATCH,PUT,DELETE,HEAD",
     credentials: true,
 }));

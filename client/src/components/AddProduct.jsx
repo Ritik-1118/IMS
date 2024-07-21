@@ -24,7 +24,7 @@ export default function AddProduct ( { addProductModal, handlePageUpdate } ) {
     const handleAddProduct = async() => {
         // console.log("product",product)
         try {
-            const response = await fetch(`http://localhost:8000/api/inventory/item/`, {
+            const response = await fetch(`https://ims-ameg.onrender.com/api/inventory/item/`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

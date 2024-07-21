@@ -63,7 +63,7 @@ export default function AddSalesDetails ( { addSales, products, customers, handl
 
     const handleAddSale = async() => {
         try {
-            const response = await fetch(`http://localhost:8000/api/orders/sales/`, {
+            const response = await fetch(`https://ims-ameg.onrender.com/api/orders/sales/`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

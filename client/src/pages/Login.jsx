@@ -41,7 +41,7 @@ function Login() {
         }
 
         try {
-            const response = await fetch(`http://localhost:8000/api/user/auth/login`, {
+            const response = await fetch(`https://ims-ameg.onrender.com/api/user/auth/login`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

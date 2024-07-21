@@ -17,7 +17,7 @@ function SalesOrder () {
     // Fetching Data of All Sales items
     const fetchSalesData = async() => {
         try {
-            const response = await fetch( `http://localhost:8000/api/orders/sales/`, {
+            const response = await fetch( `https://ims-ameg.onrender.com/api/orders/sales/`, {
                 method: "GET",
                 credentials: "include",
             } );
@@ -33,7 +33,7 @@ function SalesOrder () {
     };
     const fetchProductsData = async () => {
         try {
-            const response = await fetch(`http://localhost:8000/api/inventory/items`, {
+            const response = await fetch(`https://ims-ameg.onrender.com/api/inventory/items`, {
                 method: "GET",
                 credentials: "include",
             });
@@ -49,7 +49,7 @@ function SalesOrder () {
     }
     const fetchCustomer = async () => {
         try {
-            const response = await fetch(`http://localhost:8000/api/user/getAllUsers`, {
+            const response = await fetch(`https://ims-ameg.onrender.com/api/user/getAllUsers`, {
                 method: "GET",
                 credentials: "include",
             });
