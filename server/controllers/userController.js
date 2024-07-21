@@ -103,11 +103,10 @@ export const getUserById = async (req, res) => {
 
 export const getAllUsers = async (req, res) => {
     try {
-        const users = await User.find({}, '-password'); // Exclude the password field from the result
+        const users = await User.find().select('-password'); // Exclude passwords from the response
         res.status(200).json(users);
     } catch (error) {
-        console.error('Error fetching users:', error);
-        res.status(500).json({ message: 'Internal server error' });
+        res.status(500).json({ message: error.message });
     }
 };
 

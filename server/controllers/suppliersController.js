@@ -7,10 +7,12 @@ export const createSupplier = async ( req, res ) => {
         const { name, contactInfo, itemsSupplied } = req.body;
 
         // Validate itemsSupplied
-        for ( const itemId of itemsSupplied ) {
-            const item = await ItemModel.findById( itemId );
-            if ( !item ) {
-                return res.status( 400 ).json( { message: `Item with ID ${itemId} not found` } );
+        if(itemsSupplied){
+            for ( const itemId of itemsSupplied ) {
+                const item = await ItemModel.findById( itemId );
+                if ( !item ) {
+                    return res.status( 400 ).json( { message: `Item with ID ${itemId} not found` } );
+                }
             }
         }
 
@@ -18,6 +20,7 @@ export const createSupplier = async ( req, res ) => {
         const savedSupplier = await newSupplier.save();
         res.status( 201 ).json( savedSupplier );
     } catch ( error ) {
+        console.error("Error in creating Supplier:- ",error)
         res.status( 500 ).json( { message: error.message } );
     }
 };

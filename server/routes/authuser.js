@@ -10,8 +10,8 @@ router.route( '/auth/register' ).post( register );
 router.route( '/auth/login' ).post( login );
 
 router.route( '/' ).get( authMiddleware, getCurrentUser ); // get current user by token
-router.route( '/:userId' ).get( authMiddleware, getUserById );
-router.route('/getAllUsers').get(authMiddleware, adminMiddleware, getAllUsers);
+router.route( 'getUserById/:userId' ).get( authMiddleware, getUserById );
+router.get('/getAllUsers',authMiddleware,adminMiddleware, getAllUsers);
 router.route( '/deleteUserById/:userId' ).delete( authMiddleware, deleteUserById );
 router.route( '/updateUserById/:userId' ).put( authMiddleware, updateUserById );
 

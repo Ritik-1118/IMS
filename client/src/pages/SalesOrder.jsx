@@ -1,34 +1,34 @@
 import { useState, useEffect } from "react";
-import AddPurchaseDetails from "../components/AddPurchaseDetails";
+import AddSalesDetails from "../components/AddSalesDetails";
 
-function PurchaseDetails () {
-    const [ showPurchaseModal, setPurchaseModal ] = useState( false );
-    const [ purchase, setAllPurchaseData ] = useState( [] );
+function SalesOrder () {
+    const [ showSalesModal, setSalesModal ] = useState( false );
+    const [ sales, setAllSalesData ] = useState( [] );
     const [ products, setAllProducts ] = useState( [] );
-    const [suppliers, setSuppliers] = useState([]);
+    const [customer, setCustomer] = useState([]);
     const [ updatePage, setUpdatePage ] = useState( true );
 
     useEffect( () => {
-        fetchPurchaseData();
+        fetchSalesData();
         fetchProductsData();
-        fetchSuppliers();
+        fetchCustomer();
     }, [ updatePage ] );
 
-    // Fetching Data of All Purchase items
-    const fetchPurchaseData = async() => {
+    // Fetching Data of All Sales items
+    const fetchSalesData = async() => {
         try {
-            const response = await fetch( `http://localhost:8000/api/orders/purchase/`, {
+            const response = await fetch( `http://localhost:8000/api/orders/sales/`, {
                 method: "GET",
                 credentials: "include",
             } );
 
             if ( response.ok ) {
                 const data = await response.json();
-                console.log( "fetchPurchaseData:---", data )
-                setAllPurchaseData(data);
+                console.log( "fetchSalesData:---", data )
+                setAllSalesData(data);
             }
         } catch ( err ) {
-            console.error( "Error Fatching purchase data in:", err );
+            console.error( "Error Fatching Sales data in:", err );
         }
     };
     const fetchProductsData = async () => {
@@ -47,24 +47,25 @@ function PurchaseDetails () {
             console.error("Error Fatching Row Materials in:", err);
         }
     }
-    const fetchSuppliers = async () => {
+    const fetchCustomer = async () => {
         try {
-            const response = await fetch(`http://localhost:8000/api/supplier`, {
+            const response = await fetch(`http://localhost:8000/api/user/getAllUsers`, {
                 method: "GET",
                 credentials: "include",
             });
 
             if (response.ok) {
                 const data = await response.json();
-                setSuppliers(data);
+                console.log("getAllUsers",data)
+                setCustomer(data);
             } 
         } catch (err) {
             console.error("Error Fatching Row Materials in:", err);
         }
     }
     // Modal for Sale Add
-    const addPurchase = () => {
-        setPurchaseModal( !showPurchaseModal );
+    const addSales = () => {
+        setSalesModal( !showSalesModal );
     };
     // Handle Page Update
     const handlePageUpdate = () => {
@@ -74,11 +75,11 @@ function PurchaseDetails () {
     return (
         <div className="col-span-12 lg:col-span-10  flex justify-center">
             <div className=" flex flex-col gap-5 w-11/12">
-                { showPurchaseModal && (
-                    <AddPurchaseDetails
-                        addPurchase={ addPurchase }
+                { showSalesModal && (
+                    <AddSalesDetails
+                        addSales={ addSales }
                         products={ products }
-                        suppliers={suppliers}
+                        customers={customer}
                         handlePageUpdate={ handlePageUpdate }
                     />
                 ) }
@@ -86,14 +87,14 @@ function PurchaseDetails () {
                 <div className="overflow-x-auto rounded-lg border bg-white border-gray-200 ">
                     <div className="flex justify-between pt-5 pb-3 px-3">
                         <div className="flex gap-4 justify-center items-center ">
-                            <span className="font-bold">Purchase Details</span>
+                            <span className="font-bold">Sales Details</span>
                         </div>
                         <div className="flex gap-4">
                             <button
                                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-2 text-xs  rounded"
-                                onClick={ addPurchase }
+                                onClick={ addSales }
                             >
-                                Add Purchase
+                                Add Sale order
                             </button>
                         </div>
                     </div>
@@ -104,46 +105,58 @@ function PurchaseDetails () {
                                     Products
                                 </th>
                                 <th className="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900">
-                                    Quantity Purchased
+                                    Quantity Sale
                                 </th>
                                 <th className="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900">
-                                    Purchase Date
+                                    Sales Date
                                 </th>
                                 <th className="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900">
-                                    Supplier Name
+                                    Customer Name
                                 </th>
                                 <th className="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900">
                                     Status
                                 </th>
                                 <th className="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900">
-                                    Total Purchase Amount
+                                    Total Sales Amount
                                 </th>
                             </tr>
                         </thead>
 
                         <tbody className="divide-y divide-gray-200">
-                            { purchase.map( ( element1 ) => {
+                            { sales.map( ( element1 ) => {
                                 return (
                                     <tr key={ element1._id }>
-                                        {/* {console.log("purchase map 1",element1)} */}
+                                        {/* {console.log("Sales map 1",element1)} */}
                                         <td className="whitespace-nowrap px-4 py-2  text-gray-900 flex">
-                                            { element1.items.map((element2, i)=>(
-                                                <div key={i}>{element2.itemId?.itemName},</div>
-                                            ))}
+                                            {element1.items.length >1 ? (
+                                                <div className="flex">
+                                                    { element1.items.map((element2, i)=>(
+                                                        
+                                                        <div key={i}>{element2.itemId.itemName},</div>
+                                                    ))}
+                                                </div>
+                                            ): (
+                                                <div>
+                                                    { element1.items.map((element2, i)=>(
+                                                        
+                                                        <div key={i}>{element2.itemId.itemName}</div>
+                                                    ))}
+                                                </div>
+                                            )}
                                         </td>
                                         <td className="whitespace-nowrap px-4 py-2 text-gray-700">
                                             { element1.items.map((element2, i)=>(
-                                                <td key={i} className=" border-2 px-1">{`${element2?.quantity}`}</td>
+                                                <td key={i} className=" border-2 px-1">{`${element2.quantity}`}</td>
                                             ))}
                                         </td>
                                         <td className="whitespace-nowrap px-4 py-2 text-gray-700">
-                                            { new Date( element1?.orderDate ).toLocaleDateString() ==
+                                            { new Date( element1.orderDate ).toLocaleDateString() ==
                                                 new Date().toLocaleDateString()
                                                 ? "Today"
                                                 : new Date( element1.orderDate ).toLocaleDateString('en-GB', { year: 'numeric', month: '2-digit', day: '2-digit' })}
                                         </td>
                                         <td className="whitespace-nowrap px-4 py-2 text-gray-700">
-                                            { element1.supplierId?.name }
+                                            { element1.customerId.username }
                                         </td>
                                         <td className="whitespace-nowrap px-4 py-2 text-gray-700">
                                             { element1.status }
@@ -162,4 +175,4 @@ function PurchaseDetails () {
     );
 }
 
-export default PurchaseDetails;
+export default SalesOrder;

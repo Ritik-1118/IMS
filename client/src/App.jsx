@@ -9,8 +9,8 @@ import NoPageFound from "./pages/NoPageFound";
 import AuthContext from "./AuthContext";
 import ProtectedWrapper from "./ProtectedWrapper";
 import { useEffect, useState } from "react";
-import Store from "./pages/Store";
-import Sales from "./pages/Sales";
+import {Suppliers} from "./pages/Suppliers";
+import SalesOrder from "./pages/SalesOrder";
 import PurchaseDetails from "./pages/PurchaseDetails";
 
 const App = () => {
@@ -74,8 +74,8 @@ const App = () => {
                         <Route index element={ <Dashboard /> } />
                         <Route path="/inventory" element={ <Inventory /> } />
                         <Route path="/purchase-details" element={ <PurchaseDetails /> } />
-                        <Route path="/sales" element={ <Sales /> } />
-                        <Route path="/manage-store" element={ <Store /> } />
+                        <Route path="/sales" element={ <SalesOrder /> } />
+                        <Route path="/suppliers" element={ <Suppliers /> } />
                     </Route>
                     <Route path="*" element={ <NoPageFound /> } />
                 </Routes>

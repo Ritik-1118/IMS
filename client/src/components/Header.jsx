@@ -9,8 +9,8 @@ const navigation = [
     { name: "Dashboard", href: "/", current: true },
     { name: "Inventory", href: "/inventory", current: false },
     { name: "Purchase Details", href: "/purchase-details", current: false },
-    { name: "Sales", href: "/sales", current: false },
-    { name: "Manage Store", href: "/manage-store", current: false },
+    { name: "Sales Order", href: "/sales", current: false },
+    { name: "Suppliers", href: "/suppliers", current: false },
 ];
 
 
@@ -164,7 +164,7 @@ export default function Header() {
                                     <div className="mt-3 space-y-1 px-2 text-white">
                                         <div className=" px-2 flex flex-col gap-2">
                                             <span className="">{user.username}</span>
-                                            <span className=" py-1">{user.email}ritik1118@gmail.com</span>
+                                            <span className=" py-1">{user.email}</span>
                                             <div 
                                                 className=" border w-1/2 flex items-center justify-center bg-gray-500 rounded-lg text-white/90 cursor-pointer"
                                                 onClick={handleLogout}
