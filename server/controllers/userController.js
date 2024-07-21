@@ -42,13 +42,13 @@ export const login = async ( req, res ) => {
             res.cookie('isAdmin', isAdmin, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',
-                sameSite: 'strict',
+                sameSite: 'None',
                 maxAge: 24 * 60 * 60 * 1000
             });
             res.cookie('user', UserExist, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',
-                sameSite: 'strict',
+                sameSite: 'None',
                 maxAge: 24 * 60 * 60 * 1000
             });
             res
@@ -56,7 +56,7 @@ export const login = async ( req, res ) => {
                 .cookie('access_token', accessToken, {
                     httpOnly: true,
                     secure: process.env.NODE_ENV === 'production', // Ensure the cookie is only sent over HTTPS in production
-                    sameSite: 'strict', 
+                    sameSite: 'None', 
                     maxAge: 24 * 60 * 60 * 1000
                 })
                 
